@@ -44,5 +44,44 @@
 .kates {
   list-style-type: none;
   color: blue;
+ 
+}
+
+.color-mark{
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  background-color: transparent;
   
+}
+
+.nice-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+
+.tr {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  border: 1px solid gray;
+}
+
+.bl {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  border: 1px solid gray;
+}
+
+.colors {
+  width: 100vw;
+  height: 33px;
+}
+
+h3 {
+  color: pink;
+  color: darkmagenta
 }

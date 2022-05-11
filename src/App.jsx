@@ -1,27 +1,25 @@
 import './App.css';
-import Bebras from './Components/001/Bebras';
-import Briedis from './Components/001/Briedis';
-import Kates from './Components/001/Kates';
-import Meska from './Components/001/Meska';
-import Miskas from './Components/001/Miskas';
-import Vovere from './Components/001/Vovere';
+import Rainbow from './Components/003/Rainbow';
+
+
+const rainbow = [
+    {color:'crimson', size: 30},
+    {color:'orange',  size: 14},
+    {color:'yellow',  size: 52},
+    {color:'green',  size: 27},
+    {color:'skyblue', size: 40},
+    {color:'blue', size: 17},
+    {color:'purple', size: 22}
+];
 
 function App() {
   return (
+
     <div className="App">
       <header className="App-header">
-       <h1 style={
-         {
-           color: 'greenyellow',
-           backgroundColor: 'grey'
-         }
-       }>Labas</h1>
-       <Briedis></Briedis>
-       <Meska></Meska>
-       <Vovere></Vovere>
-       <Kates></Kates>
-       <Bebras></Bebras>
-       <Miskas></Miskas>
+       <h1>Lists</h1>
+        <Rainbow colors={rainbow}></Rainbow>
+      
       </header>
     </div>
   );
