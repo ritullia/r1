@@ -1,101 +1,65 @@
 import { useState } from 'react';
 import './App.scss';
-import randomColor from './Functions/randomcolor';
+import Button from './Components/008/Button';
+import Green from './Components/008/Green';
+import Kvadratukas from './Components/008/Kvadratukas';
 
 function App() {
-    const [show, setShow] = useState(true);
+    const [srs, setSrs] = useState([]);
 
-    const [show1, setShow1] = useState(true);
+    const clickAddSrc = () => setSrs((s) => [...s, 1]);
 
-    const [color, setColor] = useState('blue');
+    const dellSq = () => setSrs((s) => s.slice(1)); // istrina kvadratus
 
-    const [counter, setCounter] = useState(1);
-    const [sq, setSq] = useState([]);
+    // sukuriam staciakampiui fonus
+    const [green, setGreen] = useState('green');
 
-    // const doShow = () => {
-    //     setShow((s) => !s); //panaudojamas callback funkcija
-    // };
-    // const doShow1 = () => {
-    //     setShow1((s) => !s);
-    // };
-
-    const doSquares = () => {
-        //setSq((s) => [...s, (s[s.length - 1] ?? 0) + 1]);
-        setSq((s) => [...s, randomColor()]);
+    const clickButton = () => {
+        setGreen((s) => (s === 'green' ? 'pink' : 'green'));
     };
+    // prie vieneto pridedam 1+1
+    const [number, setNumber] = useState(1);
 
-    const doShowAll = (what) => {
-        what ? setShow((s) => !s) : setShow1((s) => !s);
+    const click = () => {
+        setNumber((n) => n + (col ? -1 : 1));
     };
+    // ant numeriuko 1 atsiranda fonas
+    const [col, setCol] = useState('false');
 
-    // const makeRed = () => {
-    //     setColor('red');
-    // };
-    // const makeYellow = () => {
-    //     setColor('yellow');
-    // };
-
-    const changeColor = (color) => setColor(color);
-
-    // const countNumber = () => {
-    //     setCounter((s) => s + 1);
-    // };
-    // const minNumber = () => {
-    //     setCounter((s) => s - 1);
-    // };
-
-    const countNumber = (counter) => setCounter((s) => s + counter);
+    const clicCol = () => {
+        setCol((c) => !c);
+    };
 
     return (
         <div className="App">
             <header className="App-header">
-                <div className="sqc">
-                    {sq.map((s, i) => (
-                        <div
-                            className="sq red"
-                            key={i}
-                            style={{ background: s }}
-                        ></div>
-                    ))}
-                </div>
-                <div className="sqc">
-                    {show ? (
-                        <div
-                            className="sq pink"
-                            style={{ backgroundColor: color }}
-                        >
-                            1
-                        </div>
-                    ) : null}
-                    {show1 ? (
-                        <div
-                            className="sq red"
-                            style={{ backgroundColor: color }}
-                        >
-                            2
-                        </div>
-                    ) : null}
-
-                    <h1>HOOK {counter}</h1>
-                    <div className="sqc">
-                        <button onClick={doSquares}>Add Squares</button>
-                        <button onClick={() => doShowAll(1)}>
-                            Show/Hide 1
-                        </button>
-                        <button onClick={() => doShowAll(0)}>
-                            Show/Hide 2
-                        </button>
-                        <button onClick={() => changeColor('red')}>
-                            Make Red
-                        </button>
-                        <button onClick={() => changeColor('yellow')}>
-                            {' '}
-                            Make Yellow
-                        </button>
-                        <button onClick={() => countNumber(+1)}>Add One</button>
-                        <button onClick={() => countNumber(-1)}>
-                            Remove One
-                        </button>
+                <h1>
+                    Uplifting{' '}
+                    <span
+                        style={{
+                            color: green,
+                            backgroundColor: col ? 'red' : null,
+                            padding: '7px',
+                        }}
+                    >
+                        {number}
+                    </span>
+                </h1>
+                <div>
+                    <Button
+                        clickAddSrc={clickAddSrc}
+                        clickButton={clickButton}
+                        click={click}
+                        clicCol={clicCol}
+                        dellSq={dellSq}
+                    ></Button>
+                    <div>
+                        <Green green={green}></Green>
+                    </div>
+                    <div className="kvadratukai">
+                        {srs.map((_, i) => (
+                            <Kvadratukas key={i} i={i}></Kvadratukas>
+                        ))}
                     </div>
                 </div>
             </header>
