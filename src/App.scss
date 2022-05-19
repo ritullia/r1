@@ -328,3 +328,21 @@ button {
     }
 
 }
+
+.robots{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  gap: 2px;
+  padding: 1.5rem;
+
+}
+
+.img{
+  width: 100px;
+  height: auto;
+ 
+}

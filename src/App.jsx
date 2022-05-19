@@ -1,66 +1,78 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.scss';
-import Button from './Components/008/Button';
-import Green from './Components/008/Green';
-import Kvadratukas from './Components/008/Kvadratukas';
+import Kvadratukas from './Components/009/Kvadratukas';
+import axios from 'axios';
+import Users from './Components/009/Users';
+import Users2 from './Components/009/Users2';
+import Posts from './Components/009/Posts';
 
 function App() {
-    const [srs, setSrs] = useState([]);
+    const [sq, setSq] = useState([]);
 
-    const clickAddSrc = () => setSrs((s) => [...s, 1]);
+    const add = () => setSq((s) => [...s, 1]);
 
-    const dellSq = () => setSrs((s) => s.slice(1)); // istrina kvadratus
+    const [users, setUsers] = useState([]);
 
-    // sukuriam staciakampiui fonus
-    const [green, setGreen] = useState('green');
+    const [user, setUser] = useState([]);
 
-    const clickButton = () => {
-        setGreen((s) => (s === 'green' ? 'pink' : 'green'));
-    };
-    // prie vieneto pridedam 1+1
-    const [number, setNumber] = useState(1);
+    const [title, setTitle] = useState([]);
 
-    const click = () => {
-        setNumber((n) => n + (col ? -1 : 1));
-    };
-    // ant numeriuko 1 atsiranda fonas
-    const [col, setCol] = useState('false');
+    useEffect(() => {
+        axios.get('https://jsonplaceholder.typicode.com/users').then((res) => {
+            console.log(res.data);
+            setUsers(res.data);
+        });
+    }, []); //Users
 
-    const clicCol = () => {
-        setCol((c) => !c);
-    };
+    useEffect(() => {
+        axios.get('https://jsonplaceholder.typicode.com/posts').then((res) => {
+            console.log(res.data);
+            setTitle(res.data);
+        });
+    }, []); //Posts
+
+    // const stringLength = title.filter((title) => {
+    //     return title.length > 10;
+    // });
+
+    useEffect(() => {
+        axios.get('https://dummyjson.com/users?limit=10').then((res) => {
+            console.log(res.data.users);
+            setUser(res.data.users);
+        });
+    }, []); //Users 10
 
     return (
         <div className="App">
             <header className="App-header">
-                <h1>
-                    Uplifting{' '}
-                    <span
-                        style={{
-                            color: green,
-                            backgroundColor: col ? 'red' : null,
-                            padding: '7px',
-                        }}
-                    >
-                        {number}
-                    </span>
-                </h1>
+                <h1>USE eFFeCt</h1>
+
+                <button onClick={add}>add</button>
+                <div className="kvadratukai">
+                    {sq.map((_, i) => (
+                        <Kvadratukas key={i} i={i}></Kvadratukas>
+                    ))}
+                </div>
                 <div>
-                    <Button
-                        clickAddSrc={clickAddSrc}
-                        clickButton={clickButton}
-                        click={click}
-                        clicCol={clicCol}
-                        dellSq={dellSq}
-                    ></Button>
-                    <div>
-                        <Green green={green}></Green>
-                    </div>
-                    <div className="kvadratukai">
-                        {srs.map((_, i) => (
-                            <Kvadratukas key={i} i={i}></Kvadratukas>
+                    {users.map((u) => (
+                        <Users key={u.id} user={u}></Users>
+                    ))}
+                </div>
+                <div>
+                    {user.map((u) => (
+                        <Users2 key={u.id} user={u}></Users2>
+                    ))}
+                </div>
+                <div>
+                    {title
+
+                        .sort((a, b) => b.title.length - a.title.length)
+                        .filter(
+                            (title) => [7, 3, 4].indexOf(title.userId) !== -1
+                        )
+                        .map((t) => (
+                            <Posts key={t.id} index={t} title={t}></Posts>
                         ))}
-                    </div>
                 </div>
             </header>
         </div>
