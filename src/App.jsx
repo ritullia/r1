@@ -10,7 +10,7 @@ function App() {
     const [color, setColor] = useState('');
 
     const [list3, setList3] = useState([]);
-    const [select, setSelect] = useState(4);
+    const [select, setSelect] = useState('');
 
     const [listSelect, setListSelect] = useState([]);
     const [textSelect, setTextSelect] = useState('');
@@ -47,6 +47,9 @@ function App() {
     };
 
     const addSelectToList = () => {
+        if (select === '') {
+            return;
+        }
         setList3((l) => [...l, select]);
     };
 
