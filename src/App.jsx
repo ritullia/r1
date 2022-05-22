@@ -9,6 +9,12 @@ function App() {
     const [list2, setList2] = useState([]);
     const [color, setColor] = useState('');
 
+    const [list3, setList3] = useState([]);
+    const [select, setSelect] = useState(4);
+
+    const [listSelect, setListSelect] = useState([]);
+    const [textSelect, setTextSelect] = useState('');
+
     //sukuriam tekstui
     const handleText = (e) => {
         // setList1((l) => [...l, e.target.value]);
@@ -18,6 +24,14 @@ function App() {
     //sukuriam spalvoms
     const handleColor = (e) => {
         setColor(e.target.value);
+    };
+
+    const handleSelect = (e) => {
+        setSelect(e.target.value);
+    };
+
+    const handleTextSelect = (e) => {
+        setTextSelect(e.target.value);
     };
 
     const addTextToList = () => {
@@ -32,8 +46,21 @@ function App() {
         setList2((l) => [...l, color ? color : '#0000000']);
     };
 
+    const addSelectToList = () => {
+        setList3((l) => [...l, select]);
+    };
+
+    const addTextToSelect = () => {
+        if (textSelect === '') {
+            return;
+        }
+        setListSelect((l) => [...l, textSelect]);
+        setTextSelect('');
+    };
+
     const clearList = () => setList1([]);
     const clearColorList = () => setList2([]);
+    const clearList3 = () => setList3([]);
 
     return (
         <div>
@@ -135,6 +162,90 @@ function App() {
                                             className="list-group-item"
                                             style={{ backgroundColor: t }}
                                         ></li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="container">
+                <div className="row">
+                    <div className="col-4">
+                        <div className="card m-4">
+                            <div className="card-header">TEXT to SELECT</div>
+                            <div className="card-body">
+                                <div className="form-group">
+                                    <label>Text input</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        onChange={handleTextSelect}
+                                        value={textSelect}
+                                    ></input>
+                                    <small className="form-text text-muted">
+                                        Some little text
+                                    </small>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={addTextToSelect}
+                                    className="btn btn-outline-primary"
+                                >
+                                    Add to Select
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-4">
+                        <div className="card m-4">
+                            <div className="card-header">SELECT</div>
+                            <div className="card-body">
+                                <div className="form-group">
+                                    <label>Select</label>
+                                    <select
+                                        className="form-control"
+                                        onChange={handleSelect}
+                                        value={select}
+                                    >
+                                        <option value="" disabled>
+                                            SELECT
+                                        </option>
+                                        {listSelect.map((v, i) => (
+                                            <option key={i} value={v}>
+                                                {v}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={addSelectToList}
+                                    className="btn btn-outline-primary mt-2"
+                                >
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-4">
+                        <div className="card m-4">
+                            <div className="card-header">SELECT LIST</div>
+                            <div className="card-body">
+                                <button
+                                    type="button"
+                                    onClick={clearList3}
+                                    className="btn btn-outline-warning"
+                                >
+                                    Clear List
+                                </button>
+                                <ul className="list-group mt-2">
+                                    {list3.map((t, i) => (
+                                        <li key={i} className="list-group-item">
+                                            {t}
+                                        </li>
                                     ))}
                                 </ul>
                             </div>
