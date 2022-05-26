@@ -83,7 +83,7 @@
 
 h3 {
   color: pink;
-  color: darkmagenta;
+  color: rgb(255, 255, 255);
   
 }
 
@@ -141,7 +141,7 @@ h3 {
 }
 
 //BUTTON
-$color: rgb(5, 39, 103);
+$color: rgb(26, 87, 199);
 
 button.a {
   display: inline-block;
@@ -345,4 +345,9 @@ button.a {
   width: 100px;
   height: auto;
  
+}
+
+.cards-container {
+  display: flex;
+  flex-direction: column-reverse;
 }
