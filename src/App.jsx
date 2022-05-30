@@ -1,81 +1,100 @@
+import { useState } from 'react';
 import './App.scss';
 import './bootstrap.css';
-import { useState } from 'react';
-import Hello from '../src/Components/014/Hello';
+import NameColor from './Components/016/NameColor';
+import rand from './Functions/rand';
+import Edit from './Components/016/Edit';
+import Create from './Components/016/Create';
 
 function App() {
-    const labas = () => {
-        console.log('Labas');
+    const [list, setList] = useState([]);
+    const [modal, setModal] = useState(null);
+
+    const add = (obj) => {
+        obj.id = rand(10000, 99999);
+        setList((oldList) => [...oldList, obj]);
     };
 
-    const [text, setText] = useState('');
-    const [red, setRed] = useState('white');
-    const [red2, setRed2] = useState('white');
-    const [afrika, setAfrika] = useState('');
-
-    const ate = () => {
-        setText('Ate');
+    const edit = (obj) => {
+        setList((oldList) => oldList.map((o) => (o.id === obj.id ? obj : o)));
     };
 
-    const noAte = () => {
-        setText('');
-        setRed('white');
+    const sortName = () => {
+        setList((oldList) => {
+            return [...oldList].sort((a, b) => {
+                if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                return 0;
+            });
+        });
     };
 
-    const showHideAte = () => {
-        setText((t) => (t === 'Ate' ? '' : 'Ate')); //arba
-        // setText((t) => (t ? '' : 'Ate'));
+    const sortColor = () => {
+        setList((oldList) => {
+            return [...oldList].sort((a, b) => {
+                if (a.color.toLowerCase() > b.color.toLowerCase()) return 1;
+                if (a.color.toLowerCase() < b.color.toLowerCase()) return -1;
+                return 0;
+            });
+        });
     };
 
-    const colorRed = () => {
-        setRed('red');
+    const deleteList = (id) => {
+        // console.log(obj.id);
+        setList((oldList) => oldList.filter((obj) => obj.id !== id));
     };
-    const makeRed = () => {
-        setRed2('crimson');
-    };
-    const helloAfrika = () => {
-        setAfrika('Africa');
-    };
+
+    const clearList = () => setList([]);
 
     return (
         <div className="App">
-            <header className="App-header">
-                <h1>REPEAT</h1>
-                <Hello color={red2} afrika={afrika}></Hello>
-                <h2
-                    style={{
-                        color: red,
-                    }}
-                >
-                    {text}
-                </h2>
-
-                <div className="sqc">
-                    <button className="a" onClick={labas}>
-                        Labas
-                    </button>
-                    <button className="a" onClick={ate}>
-                        Ate
-                    </button>
-                    <button className="a" onClick={noAte}>
-                        No Ate
-                    </button>
-                    <button className="a" onClick={showHideAte}>
-                        Show Ate
-                    </button>
+            <div className="container">
+                <div className="row">
+                    <div className="col-4">
+                        <Create>{add}</Create>
+                    </div>
+                    <div className="col-8">
+                        <div className="card m-4">
+                            <div className="card-header">List</div>
+                            <div className="card-body">
+                                <ul className="list-group">
+                                    {list.map((obj, i) => (
+                                        <NameColor
+                                            key={obj.id}
+                                            obj={obj}
+                                            ind={i + 1}
+                                            deleteList={deleteList}
+                                            setModal={setModal}
+                                        ></NameColor>
+                                    ))}
+                                </ul>
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-warning mt-2"
+                                    onClick={sortName}
+                                >
+                                    Sort Name
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-info mt-2"
+                                    onClick={sortColor}
+                                >
+                                    Sort Color
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-dark mt-2"
+                                    onClick={clearList}
+                                >
+                                    Clear List
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="sqc">
-                    <button className="a" onClick={colorRed}>
-                        Color Ate
-                    </button>
-                    <button className="a" onClick={makeRed}>
-                        Red Hello
-                    </button>
-                    <button className="a" onClick={helloAfrika}>
-                        Afrika
-                    </button>
-                </div>
-            </header>
+            </div>
+            <Edit modal={modal} setModal={setModal} edit={edit}></Edit>
         </div>
     );
 }
