@@ -1,29 +1,35 @@
-function NameColor({ obj, ind, deleteList, setModal }) {
+function Animal({ animal, index, setDeleteAnimalData }) {
     return (
         <li className="list-group-item">
             <div className="item">
                 <div className="content">
-                    <b>#{ind}</b>
-                    <h2>{obj.count}</h2>
-                    <span style={{ color: obj.red ? 'red' : null }}>
-                        {obj.name} {obj.width} M
-                    </span>{' '}
-                    {obj.name} {obj.color}
-                    <u>{obj.select}</u>
-                    <small>id:{obj.id}</small>
+                    <b>#{index}</b>
+
+                    <span>
+                        {' '}
+                        {animal.name} {animal.age}
+                        {''}
+                    </span>
+                    <span
+                        className={
+                            (animal.has_owner ? 'yes' : 'no') + ' yes-no'
+                        }
+                    ></span>
+                    <small>
+                        {['Cat', 'Dog', 'Rat', 'Racoon'][animal.type - 1]}
+                    </small>
                 </div>
                 <div className="buttons">
                     <button
                         type="button"
                         className="btn btn-outline-success mr-2"
-                        onClick={() => setModal(obj)}
                     >
                         Edit
                     </button>
                     <button
                         type="button"
                         className="btn btn-outline-danger mr-2"
-                        onClick={() => deleteList(obj.id)}
+                        onClick={() => setDeleteAnimalData(animal)}
                     >
                         Delete
                     </button>
@@ -33,4 +39,4 @@ function NameColor({ obj, ind, deleteList, setModal }) {
     );
 }
 
-export default NameColor;
+export default Animal;

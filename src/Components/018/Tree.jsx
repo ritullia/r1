@@ -1,29 +1,24 @@
-function NameColor({ obj, ind, deleteList, setModal }) {
+function Tree({ tree, index, setDeleteTreeData }) {
     return (
         <li className="list-group-item">
             <div className="item">
                 <div className="content">
-                    <b>#{ind}</b>
-                    <h2>{obj.count}</h2>
-                    <span style={{ color: obj.red ? 'red' : null }}>
-                        {obj.name} {obj.width} M
-                    </span>{' '}
-                    {obj.name} {obj.color}
-                    <u>{obj.select}</u>
-                    <small>id:{obj.id}</small>
+                    <b>#{index}</b>
+                    <span>{tree.title} m </span>
+                    <i>{tree.height}</i>
+                    <small>{['Leaf', 'Spike', 'Palm'][tree.type - 1]}</small>
                 </div>
                 <div className="buttons">
                     <button
                         type="button"
                         className="btn btn-outline-success mr-2"
-                        onClick={() => setModal(obj)}
                     >
                         Edit
                     </button>
                     <button
                         type="button"
                         className="btn btn-outline-danger mr-2"
-                        onClick={() => deleteList(obj.id)}
+                        onClick={() => setDeleteTreeData(tree)}
                     >
                         Delete
                     </button>
@@ -33,4 +28,4 @@ function NameColor({ obj, ind, deleteList, setModal }) {
     );
 }
 
-export default NameColor;
+export default Tree;

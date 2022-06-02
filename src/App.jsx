@@ -1,101 +1,147 @@
-import { useState } from 'react';
 import './App.scss';
 import './bootstrap.css';
-import NameColor from './Components/016/NameColor';
-import rand from './Functions/rand';
-import Edit from './Components/016/Edit';
-import Create from './Components/016/Create';
+import axios from 'axios';
+import CreateTree from './Components/018/CreateTree';
+import { useEffect, useState } from 'react';
+import Tree from './Components/018/Tree';
+import Animal from './Components/018/Animal';
+import CreateAnimal from './Components/018/CreateAnimal';
 
 function App() {
-    const [list, setList] = useState([]);
-    const [modal, setModal] = useState(null);
+    const [lastTreeUpdate, setLastTreeUpdate] = useState(Date.now());
+    const [lastAnimalsUpdate, setAnimalsUpdate] = useState(Date.now());
 
-    const add = (obj) => {
-        obj.id = rand(10000, 99999);
-        setList((oldList) => [...oldList, obj]);
-    };
+    const [treeList, setTreeList] = useState(null);
+    const [animalList, setAnimalList] = useState(null);
 
-    const edit = (obj) => {
-        setList((oldList) => oldList.map((o) => (o.id === obj.id ? obj : o)));
-    };
+    const [createTreeData, setCreateTreeData] = useState(null);
+    const [createAnimalData, setCreateAnimalData] = useState(null);
 
-    const sortName = () => {
-        setList((oldList) => {
-            return [...oldList].sort((a, b) => {
-                if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
-                if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
-                return 0;
-            });
+    const [deleteTreeData, setDeleteTreeData] = useState(null);
+    const [deleteAnimalData, setDeleteAnimalData] = useState(null);
+
+    // READ
+
+    useEffect(() => {
+        axios.get('http://localhost:3003/trees').then((res) => {
+            setTreeList(res.data);
         });
-    };
+    }, [lastTreeUpdate]);
 
-    const sortColor = () => {
-        setList((oldList) => {
-            return [...oldList].sort((a, b) => {
-                if (a.color.toLowerCase() > b.color.toLowerCase()) return 1;
-                if (a.color.toLowerCase() < b.color.toLowerCase()) return -1;
-                return 0;
-            });
+    useEffect(() => {
+        axios.get('http://localhost:3003/animals').then((res) => {
+            setAnimalList(res.data);
         });
-    };
+    }, [lastAnimalsUpdate]);
 
-    const deleteList = (id) => {
-        // console.log(obj.id);
-        setList((oldList) => oldList.filter((obj) => obj.id !== id));
-    };
+    // CREATE
 
-    const clearList = () => setList([]);
+    useEffect(() => {
+        if (null === createTreeData) {
+            return;
+        }
+        axios
+            .post('http://localhost:3003/trees', createTreeData)
+            .then((res) => {
+                setLastTreeUpdate(Date.now());
+            });
+    }, [createTreeData]);
+
+    useEffect(() => {
+        if (null === createAnimalData) {
+            return;
+        }
+        console.log(createAnimalData);
+        axios
+            .post('http://localhost:3003/animals', createAnimalData)
+            .then((res) => {
+                setAnimalsUpdate(Date.now());
+            });
+    }, [createAnimalData]);
+
+    // DELETE
+
+    useEffect(() => {
+        if (null === deleteTreeData) {
+            return;
+        }
+        axios
+            .delete('http://localhost:3003/trees/' + deleteTreeData.id)
+            .then((res) => {
+                setLastTreeUpdate(Date.now());
+            });
+    }, [deleteTreeData]);
+
+    useEffect(() => {
+        if (null === deleteAnimalData) {
+            return;
+        }
+        axios
+            .delete('http://localhost:3003/animals/' + deleteAnimalData.id)
+            .then((res) => {
+                setAnimalsUpdate(Date.now());
+            });
+    }, [deleteAnimalData]);
 
     return (
-        <div className="App">
+        <>
             <div className="container">
                 <div className="row">
                     <div className="col-4">
-                        <Create>{add}</Create>
+                        <CreateTree
+                            setCreateTreeData={setCreateTreeData}
+                        ></CreateTree>
+                        <CreateAnimal
+                            setCreateAnimalData={setCreateAnimalData}
+                        ></CreateAnimal>
                     </div>
                     <div className="col-8">
                         <div className="card m-4">
-                            <div className="card-header">List</div>
+                            <div className="card-header">
+                                <h2>Trees list</h2>
+                            </div>
                             <div className="card-body">
                                 <ul className="list-group">
-                                    {list.map((obj, i) => (
-                                        <NameColor
-                                            key={obj.id}
-                                            obj={obj}
-                                            ind={i + 1}
-                                            deleteList={deleteList}
-                                            setModal={setModal}
-                                        ></NameColor>
-                                    ))}
+                                    {treeList
+                                        ? treeList.map((t, i) => (
+                                              <Tree
+                                                  key={t.id}
+                                                  tree={t}
+                                                  index={i + 1}
+                                                  setDeleteTreeData={
+                                                      setDeleteTreeData
+                                                  }
+                                              ></Tree>
+                                          ))
+                                        : null}
                                 </ul>
-                                <button
-                                    type="button"
-                                    className="btn btn-outline-warning mt-2"
-                                    onClick={sortName}
-                                >
-                                    Sort Name
-                                </button>
-                                <button
-                                    type="button"
-                                    className="btn btn-outline-info mt-2"
-                                    onClick={sortColor}
-                                >
-                                    Sort Color
-                                </button>
-                                <button
-                                    type="button"
-                                    className="btn btn-outline-dark mt-2"
-                                    onClick={clearList}
-                                >
-                                    Clear List
-                                </button>
+                            </div>
+                        </div>
+                        <div className="card m-4">
+                            <div className="card-header">
+                                <h2>Animals list</h2>
+                            </div>
+                            <div className="card-body">
+                                <ul className="list-group">
+                                    {animalList
+                                        ? animalList.map((a, i) => (
+                                              <Animal
+                                                  key={a.id}
+                                                  animal={a}
+                                                  index={i + 1}
+                                                  setDeleteAnimalData={
+                                                      setDeleteAnimalData
+                                                  }
+                                              ></Animal>
+                                          ))
+                                        : null}
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <Edit modal={modal} setModal={setModal} edit={edit}></Edit>
-        </div>
+        </>
     );
 }
 
