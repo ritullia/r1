@@ -287,6 +287,7 @@ button.a {
   transition: all 0.7s;
   position: relative;
   gap: 50px;
+  
 
   .kvadratas {
     width: 100px;
@@ -318,7 +319,6 @@ button.a {
         border: 2px solid #fff;
         border-radius: 0;
         width: 20px;
-        ;
         height: 20px;
         transition: all 0.7s;
         position: relative;
@@ -418,4 +418,82 @@ button.a {
     background-color: crimson;
 
   }
+}
+
+.links {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  margin: 10px 10px 10px 30px;
+
+  a {
+    color: coral;
+    transition: all 0.6s;
+
+    &:hover {
+      color: crimson;
+    }
+  }
+}
+
+.sqc {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin: 20px;
+  width: 100%;
+
+  .sq {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    background-color: grey;
+    margin: 7px;
+
+    &.blue {
+      background-color: #61dafb;
+    }
+
+    &.pink {
+      background-color: pink;
+    }
+
+    &.red {
+      background-color: crimson;
+    }
+  }
+}
+
+.kvc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .kv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7px;
+    width: 77px;
+    height: 77px;
+    background-color: crimson;
+    margin: 8px;
+
+    &.c1 {
+      border-radius: 50%;
+    }
+  }
+}
+
+.reducer{
+  padding: 2rem;
+  border: solid #ffff 3px;
+  border-radius: 5rem;
 }

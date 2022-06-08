@@ -1,4 +1,9 @@
-function Animal({ animal, index, setDeleteAnimalData }) {
+function Animal({
+    animal,
+    index,
+    setDeleteAnimalData,
+    setEditAnimalModalData,
+}) {
     return (
         <li className="list-group-item">
             <div className="item">
@@ -7,15 +12,17 @@ function Animal({ animal, index, setDeleteAnimalData }) {
 
                     <span>
                         {' '}
-                        {animal.name} {animal.age}
-                        {''}
+                        {animal.name} {animal.age}{' '}
                     </span>
                     <span
                         className={
                             (animal.has_owner ? 'yes' : 'no') + ' yes-no'
                         }
-                    ></span>
+                    >
+                        {' '}
+                    </span>
                     <small>
+                        {'  '}
                         {['Cat', 'Dog', 'Rat', 'Racoon'][animal.type - 1]}
                     </small>
                 </div>
@@ -23,6 +30,7 @@ function Animal({ animal, index, setDeleteAnimalData }) {
                     <button
                         type="button"
                         className="btn btn-outline-success mr-2"
+                        onClick={() => setEditAnimalModalData(animal)}
                     >
                         Edit
                     </button>
